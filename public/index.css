@@ -1,0 +1,298 @@
+/*The stuff for the outer container*/
+body {
+    --primary_color: #49111C;
+    --primary_offset: #521c26;
+    --bg_color: #F2F4F3;
+    --secondary_color: #0C7C59;
+    --blk: #0A0908;
+    --wht: #F2F4F3;
+    --br: 0px;
+
+    font-family: "Roboto", sans-serif;
+    max-width: 100%;
+    width: 100%;
+    min-height: 100vh;
+    display: grid;
+    justify-items: center;
+    padding-top: 2vh;
+    background-color: var(--bg_color);
+    color: var(--wht);
+    margin: 0;
+}
+.todoContainer, .categoryEditContainer {
+    padding: 1rem;
+    background-color: var(--primary_color);
+    border-radius: var(--br);
+    width: 94%;
+    height: min-content;
+    max-width: 450px;
+}
+.todoHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+.todoHeader > * {
+    margin: 0;
+}
+.todoHeader p {
+    color: #ccc;
+}
+.newInputArea {
+    margin-bottom: 8px;
+}
+.line {
+    display: block;
+    width: 100%;
+    height: 1px;
+    background-color: var(--wht);
+    margin-block: .5rem
+}
+select {
+    display: block;
+    width: 100%;
+    height: 36px;
+    font-family: 'Inter';
+    color: black;
+    padding-left: 4px;
+    font-weight: 600;
+}
+.categoryEditContainer {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+.categoryEditContainer h2 {
+    margin: 0;
+}
+.categoryEditContainer ul {
+    padding: 8px;
+    margin: none;
+}
+.categoryEditContainer ul li {
+    list-style: none;
+}
+.twoColumns {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr min-content;
+}
+.categoryEditContainer .cancelBtn {
+    background: white;
+    color: var(--primary_color)
+}
+
+/* Styles that effect the actual individual todos*/
+
+.todoItemContainer {
+    width: 100%;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+.strike {
+    text-decoration: line-through;
+}
+
+.todoItemList {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    
+}
+
+.todoItem > div, .categoryOption > div {
+    display: grid;
+    grid-template-columns: 1fr min-content min-content;
+    gap: 4px;
+    max-width: 100%;
+}
+.todoItem, .categoryOption {
+    background-color: var(--wht);
+    color: var(--blk);
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    padding: .5rem;
+}
+.todoItem *, .categoryOption * {
+    padding: 0;
+    margin: 0;
+}
+.todoItem > div:not(.category-group) > *, .categoryOption > div > * {
+    min-height: 44px;
+}
+.todoItem > div > span:not(.category), .categoryOption > div > span {
+    display: grid;
+    align-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.deleteBtn,
+.editBtn,
+.confirmBtn,
+.cancelBtn {
+    width: 100%;
+    height: 44px;
+    padding: 4px 8px;
+    border: none;
+    transition: all 200ms;
+}
+.deleteBtn:hover,
+.editBtn:hover,
+.confirmBtn:hover,
+.cancelBtn:hover {
+    transform: scale(.95);
+}
+.deleteBtn, .cancelBtn {
+    background-color: #49111C;
+    color: white;
+}
+.editBtn, .confirmBtn {
+    background-color: var(--secondary_color);
+    color: var(--wht);
+}
+.inputBox > input {
+    min-height: 0px !important;
+    max-height: 100%;
+    height: calc(100%-10.752px);
+    padding: 4px;
+    border: solid 1px black;
+}
+.todoItem > .inputBox, .categoryOption > .inputBox {
+    display: none;
+}
+.todoItem.editing > .inputBox, .categoryOption.editing > .inputBox {
+    display: grid;
+}
+.todoItem.editing > .todoBox, .categoryOption.editing > .categoryBox {
+    display: none;
+}
+.todoDueDate {
+    font-size: 0.8rem;
+    color: #222;
+}
+
+/*Buttons that are not part of the list*/
+#addTodoItem, #removeCompletedBtn, #addCategory {
+    min-height: 36px;
+    width: 100%;
+    font-weight: 800;
+    letter-spacing: .2rem;
+    border: none;
+    background-color: var(--secondary_color);
+    color: var(--wht);
+    transition: transform 500ms;
+}
+#addTodoItem:hover, #removeCompletedBtn:hover, #addCategory:hover {
+    transform: scale(0.98);
+    cursor: pointer;
+}
+
+/* Handles the adding area for new todos*/
+.inputContainer {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+input {
+    height: 36px;
+    border: transparent;
+    margin: none;
+    padding: 0;
+    --padding : .5rem;
+    padding-inline: var(--padding);
+    width: calc(100% - (var(--padding) * 2));
+    border-radius: var(--br);
+}
+button.category, .change {
+    background-color: var(--primary_color);
+    border: none;
+    color: white;
+    display: block;
+    padding: 3px 6px;
+    width: max-content;
+    text-transform: lowercase;
+    font-family: "Alegreya Sans SC";
+}
+button.category {
+    background-color: var(--primary_color);
+}
+button.change {
+    background-color: var(--blk);
+    display: none;
+}
+.todoItem:not(.editing) button.category:hover {
+    cursor: unset;
+}
+button.change:hover {
+    background-color: var(--wht) !important;
+    color: var(--blk) !important;
+}
+.todoItem.editing button.category:not(.change):hover {
+    background-color: #db0f0f;
+}
+div.todoItem.editing button.change {
+    display: block !important;
+}
+div.category-group {
+    height: min-content;
+    display: flex;
+    flex-direction: row;
+}
+
+button, .todoBox:hover {
+    cursor: pointer;
+}
+.hidden {
+    display: none !important;
+}
+.selectionBox {
+    display: grid;
+    grid-template-columns: 1fr min-content;
+}
+.modifyCategories {
+    /*Button*/
+    width:36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    background-color: #F0F0F0;
+    border: solid 1px #F0F0F0;
+    transition: all 200ms;
+    transform: scale(.95);
+}
+.modifyCategories:hover {
+    background-color: #F0F0F0;
+    border: solid 1px #F0F0F0;
+    transform: scale(.90);
+}
+.modifyCategories img {
+    background-color: none;
+    width: 90%;
+    height: 90%
+}
+label { 
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.categoriesList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}

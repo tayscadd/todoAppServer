@@ -70,7 +70,7 @@ let categories = [
 
 app.use(express.json()); // json parser
 app.use(express.urlencoded({extended: true})); // urlencoded parser
-
+app.use(express.static('public')); // serve static files
 
 // Default stuff just to see if the server is running
 app.get("/", (req, res) => {
@@ -86,6 +86,7 @@ app.listen(PORT, () => {
 */
 // Get all todos
 app.get("/api/todos", (req, res) => {
+    console.log('[Server request] : GET /api/todos');
     res.send(todos);
 });
 
