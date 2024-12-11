@@ -70,7 +70,38 @@ let categories = [
 let IDcounter = todos.length
 // Handles the Todos Left:
 let todosLeftCounter = 0
-
+const DeleteOptions = (param) => {return {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ item: param })
+    }
+}
+const UpdateOptions = (param) => {return {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ item: param })
+    }
+}
+const CreateOptions = (param) => {return {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ item: param })
+    }
+}
+const ReadOptions = (param=undefined) => {return {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ item: param })
+    }
+}
 /*
 NEW TODOS FUNCTIONS
 */
@@ -236,35 +267,49 @@ function handleCategoryEditList(categoryName, index) {
     //categoriesList.insertAdjacentHTML('beforeend', insertedHTML)
 }
 // Removes a category (data and DOM)
-function deleteCategory(option) {
-    let i = categories.indexOf(option)
-    if (i!=-1) {
-        categories.splice(i, 1)
+async function deleteCategory(option) {
+    let response = await fetch(`/api/categories/${option}`, DeleteOptions(option))
+    if (!response) { console.error('deleteCategory Fetch Error') } else {
+        let i = categories.indexOf(option)
+        if (i!=-1) {
+            categories.splice(i, 1)
+            todos.forEach(todo => {
+                if (todo.todoCategory === option) {
+                    todo.todoCategory = null
+                }
+            })
+            createSelectionCategorys()
+            renderDOM()
+        }
+    }
+}
+// edits the category
+async function editCategory(newCategory, oldCategory, i) {
+    let response = await fetch(`/api/categories/${oldCategory}`, UpdateOptions(newCategory))
+    if (!response) {
+        console.error('editCategory Fetch Error')
+    } else {
+        categories[i] = newCategory
         todos.forEach(todo => {
-            if (todo.todoCategory === option) {
-                todo.todoCategory = null
+            if (todo.todoCategory === oldCategory) {
+                todo.todoCategory = newCategory
             }
         })
         createSelectionCategorys()
         renderDOM()
     }
 }
-// edits the category
-function editCategory(newCategory, oldCategory, i) {
-    categories[i] = newCategory
-    todos.forEach(todo => {
-        if (todo.todoCategory === oldCategory) {
-            todo.todoCategory = newCategory
-        }
-    })
-    createSelectionCategorys()
-    renderDOM()
-}
 // Adds a category
-function addCategory(txt) {
+async function addCategory(txt) {
     if (txt != "") {
-        categories.push(txt)
+        let response = await fetch(`/api/categories`, CreateOptions(txt))
+        if (response) {
+            console.log('Category Added')
+            categories.push(txt)
         createSelectionCategorys()
+        } else {
+            console.error('addCategory Fetch Error')
+        }
     }
 }
 
@@ -353,18 +398,28 @@ function eventRouter(e, foundContainerNode) {
             break;
     }
 }
-function handleNewInput(todo, inputValue) {
+async function handleNewInput(todo, inputValue) {
     if (inputValue != "" || inputValue != undefined) {
-        todo.todoName = inputValue
-        renderDOM()
+        let response = await fetch(`/api/todos/${todo.todoID}`, UpdateOptions({todo, inputValue}))
+        if (response) {
+            todo.todoName = inputValue
+            renderDOM()
+        } else {
+            console.error('handleNewInput Fetch Error')
+        }
     }
 }
 function toggleCompletion(todo) {
     todo.todoStatus = !todo.todoStatus
 }
-function removeTodo(todo) {
-    let todoIndex = todos.indexOf(todo)
-    todos.splice(todoIndex, 1)
+async function removeTodo(todo) {
+    let response = await fetch(`/api/todos/${todo.todoID}`, DeleteOptions(todo.todoID))
+    if (response) {
+        let todoIndex = todos.indexOf(todo.todoID)
+        todos.splice(todoIndex, 1)
+    } else (
+        console.error('RemoveTodo Fetch Error')
+    )
 }
 
 /*
@@ -439,6 +494,7 @@ function removeAllCompleted() {
             i -= 1
         }
     }
+    fetch(`/api/todos`, DeleteOptions('all'))
     //Remove from DOM
     renderDOM()
 }
@@ -460,7 +516,7 @@ SERVER TESTING
 async function getData() {
     const URLBASE = window.location.origin;
     try {
-      const response = await fetch(`${URLBASE}/api/todos`);
+      const response = await fetch(`${URLBASE}/api/todos`, ReadOptions());
       if (!response.ok) {
         throw new Error("Response Error Status:", response.status);
       } else {

@@ -1,3 +1,14 @@
+#Todo App Backend Connection
+
+### The app must perform the basic CRUD Operations to the backend, for BOTH Todos and Categories.
+- **Create:** Done
+- **Read:** Done
+- **Update:** Done
+- **Delete:** Done
+
+
+_____
+
 # API Documentation
 
 ### Get All Todos

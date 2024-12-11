@@ -92,6 +92,7 @@ app.get("/api/todos", (req, res) => {
 
 // Update Todos and return the updated list
 app.post("/api/todos", (req, res) => {
+    return true; // This is a placeholder since I'm not actually implementing a database
     if (req.body.todoID) {
         let newTodo = {
             todoID: req.body.id,
@@ -108,6 +109,7 @@ app.post("/api/todos", (req, res) => {
 })
 // Replace Todos
 app.put("/api/todos", (req, res) => {
+    return true; // This is a placeholder since I'm not actually implementing a database
     if (Array.isArray(req.body)) {
         todos = req.body;
         res.send(todos);
@@ -117,6 +119,7 @@ app.put("/api/todos", (req, res) => {
 })
 // Delete Todo
 app.delete("/api/todos", (req, res) => {
+    return true; // This is a placeholder since I'm not actually implementing a database
     if (todos.includes(req.body)) {
         todos.splice(todos.indexOf(req.body), 1);
         res.send(todos);
@@ -129,16 +132,19 @@ app.delete("/api/todos", (req, res) => {
 */
 // Get specific todos of a category
 app.get("/api/categories/:category", (req, res) => {
+    return true; // This is a placeholder since I'm not actually implementing a database
     let category = req.params.category;
     let arrayOfCategory = todos.filter(todo => todo.todoCategory === category);
     res.send(arrayOfCategory);
 })
 // Get all categories
 app.get("/api/categories", (req, res) => {
+    return true; // This is a placeholder since I'm not actually implementing a database
     res.send(categories);
 })
 // Add a category and return the updated list
 app.post("/api/categories", (req, res) => {
+    return true; // This is a placeholder since I'm not actually implementing a database
     if (req.body) {
         categories.push(req.body)
         res.send(categories)
@@ -148,10 +154,12 @@ app.post("/api/categories", (req, res) => {
 })
 // Replace categories
 app.put("/api/categories", (req, res) => {
+    return true; // This is a placeholder since I'm not actually implementing a database
     categories = req.body;
 })
 // Delete category
 app.delete("/api/categories/:category", (req, res) => {
+    return true; // This is a placeholder since I'm not actually implementing a database
     let cat = req.params.category;
     if (categories.includes(cat)) {
         categories.splice(categories.indexOf(cat), 1);
