@@ -1,10 +1,12 @@
 #Todo App Backend Connection
 
 ### The app must perform the basic CRUD Operations to the backend, for BOTH Todos and Categories.
-- **Create:** Done
-- **Read:** Done
-- **Update:** Done
-- **Delete:** Done
+- **Create:** (POST) : Done when creating a new todo. (would return the todos list to be displayed)
+- **Read:** (GET) : Done whenever I'm just asking for information from the server and not sending anything
+- **Update:** (PUT) : Editing a todo will send a PUT request.
+- **Delete:** (DELETE) : Deleteing a todo or clearing todos will send one.
+
+(They don't do anything, but the server will still respond so the client functions will work, since this isn't the database assignment.)
 
 
 _____

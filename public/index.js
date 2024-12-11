@@ -94,12 +94,11 @@ const CreateOptions = (param) => {return {
         body: JSON.stringify({ item: param })
     }
 }
-const ReadOptions = (param=undefined) => {return {
+const ReadOptions = () => {return {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ item: param })
+        }
     }
 }
 /*
@@ -147,6 +146,7 @@ function createNewTodo(name, due, category) {
     formArea.reset()
     todos.push(newTodo)
     renderDOM()
+    fetch(`/api/todos`, CreateOptions(newTodo))
 }
 
 /*
@@ -269,9 +269,12 @@ function handleCategoryEditList(categoryName, index) {
 // Removes a category (data and DOM)
 async function deleteCategory(option) {
     let response = await fetch(`/api/categories/${option}`, DeleteOptions(option))
+    console.log(response)
     if (!response) { console.error('deleteCategory Fetch Error') } else {
         let i = categories.indexOf(option)
+        console.log(1)
         if (i!=-1) {
+            console.log(2)
             categories.splice(i, 1)
             todos.forEach(todo => {
                 if (todo.todoCategory === option) {
